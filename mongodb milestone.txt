@@ -1,0 +1,615 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/):
+
+Current Mongosh Log ID: 6564376ec5be78083ac374ff
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.0
+Using MongoDB:          7.0.3
+Using Mongosh:          2.1.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-11-22T17:02:40.622+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test>
+
+test> show dbs
+admin           40.00 KiB
+bookstone       80.00 KiB
+config         108.00 KiB
+local           72.00 KiB
+student_table  360.00 KiB
+test> use bookstone
+switched to db bookstone
+bookstone> show collections
+bookstone
+bookstore
+bookstone> db.bookstore.find()
+[
+  {
+    _id: ObjectId('6564341b32819ec2a5d8f06d'),
+    book_id: 1,
+    btitle: 'ponniyin selvan',
+    author: 'kalki',
+    price: 500
+  },
+  {
+    _id: ObjectId('6564343b32819ec2a5d8f06e'),
+    book_id: 2,
+    btittle: 'a brush with life',
+    author: 'satish gujral',
+    price: 600
+  },
+  {
+    _id: ObjectId('6564346332819ec2a5d8f06f'),
+    book_id: 3,
+    btittle: 'a himalayan love story',
+    author: 'I K Gujral',
+    price: 750
+  },
+  {
+    _id: ObjectId('6564348932819ec2a5d8f070'),
+    book_id: 4,
+    btittle: 'agni veena',
+    author: 'kazi nazrul islam',
+    price: 1000
+  },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    book_id: 5,
+    btittle: 'area of darkness',
+    author: 'V S Naipaul',
+    price: 1200
+  },
+  {
+    _id: ObjectId('656434f732819ec2a5d8f072'),
+    book_id: 6,
+    btittle: 'adhe adhura',
+    author: 'mohan',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    book_id: 7,
+    btittle: 'atoms of hope',
+    author: 'mohan sundara rajam',
+    price: 1500
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    book_id: 8,
+    btittle: 'assignment colombo',
+    author: 'jn dixit',
+    price: 1500
+  },
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'bandicoot run',
+    author: 'manohar malgonl',
+    price: 3000
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  }
+]
+bookstone> db.bookstore.find({},{_id:0,btittle:1,author:1,price:1});
+[
+  { author: 'kalki', price: 500 },
+  { btittle: 'a brush with life', author: 'satish gujral', price: 600 },
+  {
+    btittle: 'a himalayan love story',
+    author: 'I K Gujral',
+    price: 750
+  },
+  { btittle: 'agni veena', author: 'kazi nazrul islam', price: 1000 },
+  { btittle: 'area of darkness', author: 'V S Naipaul', price: 1200 },
+  { btittle: 'adhe adhura', author: 'mohan', price: 1200 },
+  {
+    btittle: 'atoms of hope',
+    author: 'mohan sundara rajam',
+    price: 1500
+  },
+  { btittle: 'assignment colombo', author: 'jn dixit', price: 1500 },
+  { btittle: 'bandicoot run', author: 'manohar malgonl', price: 3000 },
+  {
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  }
+]
+bookstone> db.bookstore.find({},{_id:0,author:1}).limit(3)
+[
+  { author: 'kalki' },
+  { author: 'satish gujral' },
+  { author: 'I K Gujral' }
+]
+bookstone> db.bookstore.find({price:{$gt:1500}});
+[
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'bandicoot run',
+    author: 'manohar malgonl',
+    price: 3000
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  }
+]
+bookstone> db.bookstore.find({price:{$gt:800,$lt:2000}},{btittle:1})
+[
+  { _id: ObjectId('6564348932819ec2a5d8f070'), btittle: 'agni veena' },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    btittle: 'area of darkness'
+  },
+  { _id: ObjectId('656434f732819ec2a5d8f072'), btittle: 'adhe adhura' },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    btittle: 'atoms of hope'
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    btittle: 'assignment colombo'
+  }
+]
+bookstone> db.bookstore.find().sort({btittle:1})
+[
+  {
+    _id: ObjectId('6564341b32819ec2a5d8f06d'),
+    book_id: 1,
+    btitle: 'ponniyin selvan',
+    author: 'kalki',
+    price: 500
+  },
+  {
+    _id: ObjectId('6564343b32819ec2a5d8f06e'),
+    book_id: 2,
+    btittle: 'a brush with life',
+    author: 'satish gujral',
+    price: 600
+  },
+  {
+    _id: ObjectId('6564346332819ec2a5d8f06f'),
+    book_id: 3,
+    btittle: 'a himalayan love story',
+    author: 'I K Gujral',
+    price: 750
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  },
+  {
+    _id: ObjectId('656434f732819ec2a5d8f072'),
+    book_id: 6,
+    btittle: 'adhe adhura',
+    author: 'mohan',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564348932819ec2a5d8f070'),
+    book_id: 4,
+    btittle: 'agni veena',
+    author: 'kazi nazrul islam',
+    price: 1000
+  },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    book_id: 5,
+    btittle: 'area of darkness',
+    author: 'V S Naipaul',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    book_id: 8,
+    btittle: 'assignment colombo',
+    author: 'jn dixit',
+    price: 1500
+  },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    book_id: 7,
+    btittle: 'atoms of hope',
+    author: 'mohan sundara rajam',
+    price: 1500
+  },
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'bandicoot run',
+    author: 'manohar malgonl',
+    price: 3000
+  }
+]
+bookstone> db.bookstore.find({}).sort({btittle:1})
+[
+  {
+    _id: ObjectId('6564341b32819ec2a5d8f06d'),
+    book_id: 1,
+    btitle: 'ponniyin selvan',
+    author: 'kalki',
+    price: 500
+  },
+  {
+    _id: ObjectId('6564343b32819ec2a5d8f06e'),
+    book_id: 2,
+    btittle: 'a brush with life',
+    author: 'satish gujral',
+    price: 600
+  },
+  {
+    _id: ObjectId('6564346332819ec2a5d8f06f'),
+    book_id: 3,
+    btittle: 'a himalayan love story',
+    author: 'I K Gujral',
+    price: 750
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  },
+  {
+    _id: ObjectId('656434f732819ec2a5d8f072'),
+    book_id: 6,
+    btittle: 'adhe adhura',
+    author: 'mohan',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564348932819ec2a5d8f070'),
+    book_id: 4,
+    btittle: 'agni veena',
+    author: 'kazi nazrul islam',
+    price: 1000
+  },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    book_id: 5,
+    btittle: 'area of darkness',
+    author: 'V S Naipaul',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    book_id: 8,
+    btittle: 'assignment colombo',
+    author: 'jn dixit',
+    price: 1500
+  },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    book_id: 7,
+    btittle: 'atoms of hope',
+    author: 'mohan sundara rajam',
+    price: 1500
+  },
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'bandicoot run',
+    author: 'manohar malgonl',
+    price: 3000
+  }
+]
+bookstone> db.bookstore.find().sort({btittle:1});
+[
+  {
+    _id: ObjectId('6564341b32819ec2a5d8f06d'),
+    book_id: 1,
+    btitle: 'ponniyin selvan',
+    author: 'kalki',
+    price: 500
+  },
+  {
+    _id: ObjectId('6564343b32819ec2a5d8f06e'),
+    book_id: 2,
+    btittle: 'a brush with life',
+    author: 'satish gujral',
+    price: 600
+  },
+  {
+    _id: ObjectId('6564346332819ec2a5d8f06f'),
+    book_id: 3,
+    btittle: 'a himalayan love story',
+    author: 'I K Gujral',
+    price: 750
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  },
+  {
+    _id: ObjectId('656434f732819ec2a5d8f072'),
+    book_id: 6,
+    btittle: 'adhe adhura',
+    author: 'mohan',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564348932819ec2a5d8f070'),
+    book_id: 4,
+    btittle: 'agni veena',
+    author: 'kazi nazrul islam',
+    price: 1000
+  },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    book_id: 5,
+    btittle: 'area of darkness',
+    author: 'V S Naipaul',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    book_id: 8,
+    btittle: 'assignment colombo',
+    author: 'jn dixit',
+    price: 1500
+  },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    book_id: 7,
+    btittle: 'atoms of hope',
+    author: 'mohan sundara rajam',
+    price: 1500
+  },
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'bandicoot run',
+    author: 'manohar malgonl',
+    price: 3000
+  }
+]
+bookstone> db.bookstore.find().sort({btittle:-1});
+[
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'bandicoot run',
+    author: 'manohar malgonl',
+    price: 3000
+  },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    book_id: 7,
+    btittle: 'atoms of hope',
+    author: 'mohan sundara rajam',
+    price: 1500
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    book_id: 8,
+    btittle: 'assignment colombo',
+    author: 'jn dixit',
+    price: 1500
+  },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    book_id: 5,
+    btittle: 'area of darkness',
+    author: 'V S Naipaul',
+    price: 1200
+  },
+  {
+    _id: ObjectId('6564348932819ec2a5d8f070'),
+    book_id: 4,
+    btittle: 'agni veena',
+    author: 'kazi nazrul islam',
+    price: 1000
+  },
+  {
+    _id: ObjectId('656434f732819ec2a5d8f072'),
+    book_id: 6,
+    btittle: 'adhe adhura',
+    author: 'mohan',
+    price: 1200
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'a possible india',
+    author: 'partha chatterjee',
+    price: 3500
+  },
+  {
+    _id: ObjectId('6564346332819ec2a5d8f06f'),
+    book_id: 3,
+    btittle: 'a himalayan love story',
+    author: 'I K Gujral',
+    price: 750
+  },
+  {
+    _id: ObjectId('6564343b32819ec2a5d8f06e'),
+    book_id: 2,
+    btittle: 'a brush with life',
+    author: 'satish gujral',
+    price: 600
+  },
+  {
+    _id: ObjectId('6564341b32819ec2a5d8f06d'),
+    book_id: 1,
+    btitle: 'ponniyin selvan',
+    author: 'kalki',
+    price: 500
+  }
+]
+bookstone> db.bookstore.findOne({author:"kalki"})
+{
+  _id: ObjectId('6564341b32819ec2a5d8f06d'),
+  book_id: 1,
+  btitle: 'ponniyin selvan',
+  author: 'kalki',
+  price: 500
+}
+bookstone> db.bookstore.updateMany({},{$set:{"btittle":"mongodb practise"})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:63)
+
+> 1 | db.bookstore.updateMany({},{$set:{"btittle":"mongodb practise"})
+    |                                                                ^
+  2 |
+
+bookstone> db.bookstore.updateMany({},{$set:{"btittle":"mongodb practise"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 10,
+  modifiedCount: 10,
+  upsertedCount: 0
+}
+bookstone> db.bookstore.updateMany({},{$inc:{price:500}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 10,
+  modifiedCount: 10,
+  upsertedCount: 0
+}
+bookstone> db.bookstore.find()
+[
+  {
+    _id: ObjectId('6564341b32819ec2a5d8f06d'),
+    book_id: 1,
+    btitle: 'ponniyin selvan',
+    author: 'kalki',
+    price: 1000,
+    btittle: 'mongodb practise'
+  },
+  {
+    _id: ObjectId('6564343b32819ec2a5d8f06e'),
+    book_id: 2,
+    btittle: 'mongodb practise',
+    author: 'satish gujral',
+    price: 1100
+  },
+  {
+    _id: ObjectId('6564346332819ec2a5d8f06f'),
+    book_id: 3,
+    btittle: 'mongodb practise',
+    author: 'I K Gujral',
+    price: 1250
+  },
+  {
+    _id: ObjectId('6564348932819ec2a5d8f070'),
+    book_id: 4,
+    btittle: 'mongodb practise',
+    author: 'kazi nazrul islam',
+    price: 1500
+  },
+  {
+    _id: ObjectId('656434ad32819ec2a5d8f071'),
+    book_id: 5,
+    btittle: 'mongodb practise',
+    author: 'V S Naipaul',
+    price: 1700
+  },
+  {
+    _id: ObjectId('656434f732819ec2a5d8f072'),
+    book_id: 6,
+    btittle: 'mongodb practise',
+    author: 'mohan',
+    price: 1700
+  },
+  {
+    _id: ObjectId('6564352632819ec2a5d8f073'),
+    book_id: 7,
+    btittle: 'mongodb practise',
+    author: 'mohan sundara rajam',
+    price: 2000
+  },
+  {
+    _id: ObjectId('6564356532819ec2a5d8f074'),
+    book_id: 8,
+    btittle: 'mongodb practise',
+    author: 'jn dixit',
+    price: 2000
+  },
+  {
+    _id: ObjectId('656435a832819ec2a5d8f075'),
+    book_id: 9,
+    btittle: 'mongodb practise',
+    author: 'manohar malgonl',
+    price: 3500
+  },
+  {
+    _id: ObjectId('656435dd32819ec2a5d8f076'),
+    book_id: 10,
+    btittle: 'mongodb practise',
+    author: 'partha chatterjee',
+    price: 4000
+  }
+]
+bookstone> db.bookstore.updateOne({author:"mohan sundara rajam"},{$set:{price:5000}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+bookstone> db.bookstore.findOne({author:"mohan sundara rajam"})
+{
+  _id: ObjectId('6564352632819ec2a5d8f073'),
+  book_id: 7,
+  btittle: 'mongodb practise',
+  author: 'mohan sundara rajam',
+  price: 5000
+}
+bookstone> db.bookstore.updateOne({author:"mohan sundara rajam"},{$push:{rating:10}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+bookstone> db.bookstore.findOne({author:"mohan sundara rajam"})
+{
+  _id: ObjectId('6564352632819ec2a5d8f073'),
+  book_id: 7,
+  btittle: 'mongodb practise',
+  author: 'mohan sundara rajam',
+  price: 5000,
+  rating: [ 10 ]
+}
+bookstone> db.bookstore.updateOne({author:"mohan sundara rajam"},{$pop:{rating:10}})
+MongoServerError: $pop expects 1 or -1, found: 10
+bookstone> db.bookstore.updateOne({author:"mohan sundara rajam"},{$pull:{rating:10}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+bookstone> db.bookstore.findOne({author:"mohan sundara rajam"})
+{
+  _id: ObjectId('6564352632819ec2a5d8f073'),
+  book_id: 7,
+  btittle: 'mongodb practise',
+  author: 'mohan sundara rajam',
+  price: 5000,
+  rating: []
+}
